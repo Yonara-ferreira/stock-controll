@@ -25,7 +25,7 @@
       </form>
 
       <!-- FORMULARIO -->
-      <form [formGroup]="sigupForm" (ngSubmit)="onSubmitSigUp()">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmitSigUp()">
         <p-card styleClass="mt-10"
         header="Criar conta"
         subheader="Faça ja sua conta gratuitamente" *ngIf="!loginCard">
@@ -39,7 +39,7 @@
             <input type="password" pInputText placeholder="Senha" formControlName="password">
           </div>
           <div class="card flex justify-content-center align-content-center mt-3">
-            <button type="submit" pButton pRipple label="Criar conta" [disabled]="!this.sigupForm.valid"></button>
+            <button type="submit" pButton pRipple label="Criar conta" [disabled]="!this.signupForm.valid"></button>
           </div>
           <span class="flex justify-content-center align-content-center mt-3 text-red-600 font-semiblod"
           style="cursor: pointer;"

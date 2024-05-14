@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@Angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments';
 import { SignupUserRequest } from 'src/app/models/interfaces/users/SingupUserRequest';
 import { Observable } from 'rxjs';
 import { SingupUserResponse } from 'src/app/models/interfaces/users/SingupUserResponse';
 import { authRequest } from 'src/app/models/interfaces/users/auth/authRequest';
 import { authResponse } from 'src/app/models/interfaces/users/auth/authResponse';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root' // significa dizer que podemos usar um serviço
+                         // dentro de uma classe.
 })
 export class UsersService {
   private API_URL = environment.API_URL;
