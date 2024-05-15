@@ -3,3 +3,4 @@ export interface SignupUserRequest{
   email: string,
   password: string;
 }
+// dados de entrada do usuario
