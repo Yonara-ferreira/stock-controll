@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { SingupUserResponse } from 'src/app/models/interfaces/users/SingupUserResponse';
 import { authRequest } from 'src/app/models/interfaces/users/auth/authRequest';
 import { authResponse } from 'src/app/models/interfaces/users/auth/authResponse';
-import { CookieService } from 'ngx-cookie-service';
+
 
 @Injectable({
   providedIn: 'root' // significa dizer que podemos usar um serviço
