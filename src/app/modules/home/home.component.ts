@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
-import { SignupUserRequest } from 'src/app/models/interfaces/users/SingupUserRequest';
-import { UsersService } from 'src/app/services/user/users.service';
-import { authRequest } from 'src/app/models/interfaces/users/auth/authRequest';
 import { MessageService } from 'primeng/api';
+import { SignupUserRequest } from 'src/app/models/interfaces/users/SingupUserRequest';
+import { authRequest } from 'src/app/models/interfaces/users/auth/authRequest';
+import { UsersService } from 'src/app/services/user/users.service';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,8 @@ export class HomeComponent {
     private formBuilder: FormBuilder,
     private service: UsersService,
     private cookieService: CookieService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) {}
 
   onSubmitLoginForm(): void {
@@ -37,7 +39,7 @@ export class HomeComponent {
       this.service.authUser(this.loginForm.value as authRequest).subscribe({
         next: (response) => {
           if (response) {
-            this.cookieService.set('USER_INFO', response.token);
+            this.cookieService.set('USER_INFO', response?.token);
             this.loginForm.reset();
 
             this.messageService.add({
@@ -46,6 +48,10 @@ export class HomeComponent {
               detail: `Bem vindo de volta ${response?.name}`,
               life: 2000,
             });
+            // Aguardar 1 segundos (1000 milissegundos) antes de redirecionar
+            setTimeout(() => {
+              this.router.navigate(['/dashboard']);
+            }, 1000);
           }
         },
         error: (err) => {
