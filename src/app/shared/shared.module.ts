@@ -18,7 +18,6 @@ import { ToolbarNavigationComponent } from './components/toolbar-navigation/tool
     ToolbarModule,
     CardModule,
     ButtonModule,
-    SharedModule,
   ],
   exports: [ToolbarNavigationComponent],
   providers: [DialogService, CurrencyPipe],
