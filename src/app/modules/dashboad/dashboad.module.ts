@@ -3,12 +3,15 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { ChartModule } from 'primeng/chart';
 import { SidebarModule } from 'primeng/sidebar';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+
 import { DASHBOARD_ROUTES } from './dashboard.routing';
 import { DashboadHomeComponent } from './page/dashboad-home/dashboad-home.component';
 
@@ -25,6 +28,7 @@ import { DashboadHomeComponent } from './page/dashboad-home/dashboad-home.compon
     ToolbarModule,
     CardModule,
     ToastModule,
+    ChartModule,
   ],
   providers: [MessageService, CookieService],
 })
