@@ -12,6 +12,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 
+import { SharedModule } from 'src/app/shared/shared.module';
 import { DASHBOARD_ROUTES } from './dashboard.routing';
 import { DashboadHomeComponent } from './page/dashboad-home/dashboad-home.component';
 
@@ -29,6 +30,8 @@ import { DashboadHomeComponent } from './page/dashboad-home/dashboad-home.compon
     CardModule,
     ToastModule,
     ChartModule,
+    //Shared module que criei
+    SharedModule,
   ],
   providers: [MessageService, CookieService],
 })
