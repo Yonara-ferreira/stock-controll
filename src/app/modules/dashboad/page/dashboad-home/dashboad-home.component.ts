@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { GetAllProdutsResponse } from 'src/app/models/interfaces/products/response/GetAllProdutsResponse';
 import { ProdutsService } from 'src/app/services/produts/produts.service';
+import { ProductsDataTransferService } from 'src/app/shared/services/products/products-data-transfer.service';
 
 @Component({
   selector: 'app-dashboad-home',
@@ -13,7 +14,8 @@ export class DashboadHomeComponent {
 
   constructor(
     private produtsService: ProdutsService,
-    private message: MessageService
+    private message: MessageService,
+    private productDtService: ProductsDataTransferService
   ) {}
 
   ngOninit(): void {
@@ -25,6 +27,7 @@ export class DashboadHomeComponent {
       next: (response) => {
         if (response.length > 0) {
           this.produtsList = response;
+          this.productDtService.setProductsDatas(this.produtsList);
           console.log('DADOS PRODUTOS', this.produtsList);
         }
       },
