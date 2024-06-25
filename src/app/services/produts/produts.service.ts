@@ -13,19 +13,19 @@ export class ProdutsService {
   private JWT_TOKEN = this.cookie.get('USER_INFO');
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-type': 'application/json',
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${this.JWT_TOKEN}`,
     }),
   };
 
   constructor(private http: HttpClient, private cookie: CookieService) {}
 
-  getAllProduts(): Observable<Array<GetAllProdutsResponse>> {
+  getAllProducts(): Observable<Array<GetAllProdutsResponse>> {
     return this.http
       .get<Array<GetAllProdutsResponse>>(
         `${this.API_URL}/produts`,
         this.httpOptions
-      ) // vai me retornar no filtro apenas o que for maior que 0
-      .pipe(map((produts) => produts.filter((data) => data.amount > 0)));
+      )
+      .pipe(map((product) => product.filter((data) => data?.amount > 0)));
   }
 }
