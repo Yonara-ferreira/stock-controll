@@ -23,7 +23,7 @@ export class ProdutsService {
   getAllProducts(): Observable<Array<GetAllProdutsResponse>> {
     return this.http
       .get<Array<GetAllProdutsResponse>>(
-        `${this.API_URL}/produts`,
+        `${this.API_URL}/products`,
         this.httpOptions
       )
       .pipe(map((product) => product.filter((data) => data?.amount > 0)));
