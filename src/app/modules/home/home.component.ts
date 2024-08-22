@@ -3,6 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { MessageService } from 'primeng/api';
+import { Subject, takeUntil } from 'rxjs';
 import { SignupUserRequest } from 'src/app/models/interfaces/users/SingupUserRequest';
 import { authRequest } from 'src/app/models/interfaces/users/auth/authRequest';
 import { UsersService } from 'src/app/services/user/users.service';
@@ -13,6 +14,7 @@ import { UsersService } from 'src/app/services/user/users.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+  private destroy$ = new Subject<void>();
   loginCard = true;
 
   loginForm = this.formBuilder.group({
@@ -36,33 +38,36 @@ export class HomeComponent {
 
   onSubmitLoginForm(): void {
     if (this.loginForm.value && this.loginForm.valid) {
-      this.service.authUser(this.loginForm.value as authRequest).subscribe({
-        next: (response) => {
-          if (response) {
-            this.cookieService.set('USER_INFO', response?.token);
-            this.loginForm.reset();
+      this.service
+        .authUser(this.loginForm.value as authRequest)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            if (response) {
+              this.cookieService.set('USER_INFO', response?.token);
+              this.loginForm.reset();
 
+              this.messageService.add({
+                severity: 'success',
+                summary: ' Sucesso!',
+                detail: `Bem vindo de volta ${response?.name}`,
+                life: 2000,
+              });
+              // Aguardar 1 segundos (1000 milissegundos) antes de redirecionar
+              setTimeout(() => {
+                this.router.navigate(['/dashboard']);
+              }, 1000);
+            }
+          },
+          error: (err) => {
             this.messageService.add({
-              severity: 'success',
-              summary: ' Sucesso!',
-              detail: `Bem vindo de volta ${response?.name}`,
+              severity: 'error',
+              summary: ' falha na autenticação!',
+              detail: `Usuario ${err?.name} não encontrado`,
               life: 2000,
             });
-            // Aguardar 1 segundos (1000 milissegundos) antes de redirecionar
-            setTimeout(() => {
-              this.router.navigate(['/dashboard']);
-            }, 1000);
-          }
-        },
-        error: (err) => {
-          this.messageService.add({
-            severity: 'error',
-            summary: ' falha na autenticação!',
-            detail: `Usuario ${err?.name} não encontrado`,
-            life: 2000,
-          });
-        },
-      });
+          },
+        });
     }
   }
 
@@ -70,6 +75,7 @@ export class HomeComponent {
     if (this.signupForm.value && this.signupForm.valid) {
       this.service
         .singupUser(this.signupForm.value as SignupUserRequest)
+        .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (response) => {
             if (response) {
@@ -94,5 +100,12 @@ export class HomeComponent {
           },
         });
     }
+  }
+
+  // emite um novo valor,
+  // fazendo assim a limpeza de serviço
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

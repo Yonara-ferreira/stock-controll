@@ -6,21 +6,22 @@ import { GetAllProdutsResponse } from 'src/app/models/interfaces/products/respon
   providedIn: 'root',
 })
 export class ProductsDataTransferService {
-  public productsDataEmiiter$ =
+  public productsDataEmitter$ =
     new BehaviorSubject<Array<GetAllProdutsResponse> | null>(null);
 
   public productsDatas: Array<GetAllProdutsResponse> = [];
 
   setProductsDatas(products: Array<GetAllProdutsResponse>): void {
     if (products) {
-      this.productsDataEmiiter$.next(products);
+      this.productsDataEmitter$.next(products);
       this.getProductsDatas();
     }
   }
+
   getProductsDatas() {
-    this.productsDataEmiiter$
+    this.productsDataEmitter$
       .pipe(
-        take(1),
+        take(1), // operador desescreve do observable... acaba com problema de memory leky
         map((data) => data?.filter((product) => product.amount > 0))
       )
       .subscribe({

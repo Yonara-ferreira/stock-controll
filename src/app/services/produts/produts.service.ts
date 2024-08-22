@@ -10,7 +10,13 @@ import { environment } from 'src/environments/environments';
 })
 export class ProdutsService {
   private API_URL = environment.API_URL;
+
+  //  definiçao de cookie definido
   private JWT_TOKEN = this.cookie.get('USER_INFO');
+
+  // rotas privadas, necessario estar logado na aplicaçao
+  // passando esse obj ...
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
