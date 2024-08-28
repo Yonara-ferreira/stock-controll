@@ -12,7 +12,7 @@ import { ProductsDataTransferService } from '../../../../shared/services/product
   styleUrls: [],
 })
 export class ProductsHomeComponent implements OnInit, OnDestroy {
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>(); // $ para informar que é um observable
 
   public productsDatas: Array<GetAllProdutsResponse> = [];
 
@@ -31,9 +31,9 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     const productsLoaded = this.productsDtService.getProductsDatas();
 
     if (productsLoaded.length > 0) {
-      this.productsDatas = productsLoaded;
+      this.productsDatas = productsLoaded; // para dados em memoria
     } else {
-      this.getAPIProductsDatas();
+      this.getAPIProductsDatas(); // buscar na api
     }
 
     console.log('DADOS DOS PRODUTOS EM ESTOQUE', this.productsDatas);

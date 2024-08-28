@@ -28,7 +28,7 @@ const routes: Routes = [
       import('./modules/products/products.module').then(
         (m) => m.ProductsModule
       ),
-    canActivate: [AuthGuardsService],
+    canActivate: [AuthGuardsService], // apenas usuario logados podem entrar nessa rota.
   },
 ];
 @NgModule({
