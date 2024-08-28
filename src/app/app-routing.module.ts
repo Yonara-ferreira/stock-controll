@@ -22,6 +22,14 @@ const routes: Routes = [
     // vai retornar para tela se nao tiver permissao
     canActivate: [AuthGuardsService],
   },
+  {
+    path: 'products',
+    loadChildren: () =>
+      import('./modules/products/products.module').then(
+        (m) => m.ProductsModule
+      ),
+    canActivate: [AuthGuardsService],
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
