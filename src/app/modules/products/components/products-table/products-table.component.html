@@ -115,8 +115,9 @@
                 label="Adicionar"
                 pTooltip="Adicionar produto"
                 tooltipPosition="top"
+                (onClick)="handleProductEvent(addProductEvent)"
                 >
-                <!-- (onClick)="handleProductEvent(addProductEvent)" -->
+
               </p-button>
               </div>
             </th>
@@ -136,16 +137,16 @@
                 class="p-button-rounded p-button-warning"
                 pTooltip="Editar produto"
                 tooltipPosition="top"
+                (click)="handleProductEvent(editProcuctEvent, product?.id)"
                 >
-                <!-- (click)="handleProductEvent(editProductEvent, product?.id)" -->
               </button>
                 <button
                 pButton pRipple icon="pi pi-trash"
                 class="p-button-rounded p-button-danger"
                 pTooltip="Remover produto"
                 tooltipPosition="top"
+                (click)="handleDeleteProduct(product?.id, product?.name)"
                 >
-                <!-- (click)="handleDeleteProduct(product?.id, product?.name)" -->
               </button>
               </div>
             </td>
