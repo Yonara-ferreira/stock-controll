@@ -16,7 +16,7 @@ export class ProductsTableComponent {
 
 
   public productSelected!: GetAllProdutsResponse;
-  public addProductEvent = ProductEvent. ADD_PRODUCT_EVENT;
+  public addProductEvent = ProductEvent.ADD_PRODUCT_EVENT;
   public editProcuctEvent = ProductEvent.EDIT_PRODUCT_EVENT;
 
 
