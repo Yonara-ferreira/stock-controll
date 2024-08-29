@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
-import { EventAction } from 'src/app/models/interfaces/events/EventAction';
+import { EventAction } from 'src/app/models/interfaces/products/events/EventAction';
 import { GetAllProdutsResponse } from 'src/app/models/interfaces/products/response/GetAllProdutsResponse';
 import { ProdutsService } from 'src/app/services/produts/produts.service';
 import { ProductsDataTransferService } from '../../../../shared/services/products/products-data-transfer.service';
