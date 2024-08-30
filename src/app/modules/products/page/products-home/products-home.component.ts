@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Subject, takeUntil } from 'rxjs';
 import { EventAction } from 'src/app/models/interfaces/products/events/EventAction';
 import { GetAllProdutsResponse } from 'src/app/models/interfaces/products/response/GetAllProdutsResponse';
@@ -21,7 +21,8 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     private productService: ProdutsService,
     private productsDtService: ProductsDataTransferService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -75,12 +76,50 @@ export class ProductsHomeComponent implements OnInit, OnDestroy {
     productName: string;
   }): void {
     if(event){
-      console.log('DADOS DO EVENTO DELETADO', event)
+      this.confirmationService.confirm({
+        message: `Confirma a exclusão do produto: ${event.productName}?`,
+        header: 'CONFIRMAÇÃO DE EXCLUSÃO',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Sim',
+        rejectLabel: 'Não',
+        accept: () => this.deleteProduct(event?.product_id),
+      });
     }
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next;
-    this.destroy$.complete;
+    deleteProduct(product_id: string){
+        if(product_id){
+          this.productService
+          .deleteProduct(product_id)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (response) => {
+              if(response){
+                this.messageService.add({
+                  severity: 'Success',
+                  summary: 'Sucesso',
+                  detail: 'Produto deletado com sucesso',
+                  life: 2500
+                });
+
+                this.getAPIProductsDatas();
+              }
+            }, error: (err) => {
+              console.log(err)
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Erro',
+                detail: 'Erro ao remover produto',
+                life: 2500,
+              })
+            }
+          })
+        }
+    }
+    ngOnDestroy(): void {
+      this.destroy$.next;
+      this.destroy$.complete;
+    }
   }
-}
+
+
