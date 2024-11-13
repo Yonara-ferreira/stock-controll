@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
+import { ProductEvent } from 'src/app/models/Enums/products/ProductsEvent';
 import { getCategoriesResponse } from 'src/app/models/interfaces/categories/response/getCategoriesResponse';
 import { EventAction } from 'src/app/models/interfaces/products/events/EventAction';
 import { CreateProductRequest } from 'src/app/models/interfaces/products/requests/CreateProductRequest';
@@ -50,6 +51,10 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
     amount: ['', Validators.required],
   });
 
+  public addProductAction = ProductEvent.ADD_PRODUCT_EVENT;
+  public editProductAction = ProductEvent.EDIT_PRODUCT_EVENT;
+  public saleProductAction = ProductEvent.SALE_PRODUCT_EVENT;
+
   constructor(
     private categoriesService: CategoriesService,
     private productService: ProdutsService,
@@ -64,6 +69,14 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productAction = this.ref.data;
     this.getAllCategories();
+
+    if(this.productAction?.event?.action === this.editProductAction && this.productAction?.productData){
+      this.getProductSelectedDatas(this.productAction?.event?.id as string);
+    }
+
+    this.productAction?.event?.action === this.saleProductAction
+      this.getProdutDatas();
+
   }
 
   getAllCategories() {
@@ -121,7 +134,7 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
         name: this.editProductForm.value.name as string,
         price: this.editProductForm.value.price as string,
         description: this.editProductForm.value.description as string,
-        product_id: this.productAction?.event?.id,
+        product_id: this.productAction?.event?.id || '',
         amount: Number(this.editProductForm.value.amount),
       };
 
@@ -136,14 +149,16 @@ export class ProductsFormComponent implements OnInit, OnDestroy {
             detail: `Produto editado com sucesso!`,
             life: 2500,
           });
+          this.editProductForm.reset();
         },
         error: (err) => {
           this.messageService.add({
             severity: 'error',
             summary: 'Erro',
-            detail: 'Por favor, verifique o formulario',
+            detail: 'Por favor, verifique o formulário',
             life: 2500
           });
+          this.editProductForm.reset();
         },
       });
     }

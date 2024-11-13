@@ -1,5 +1,5 @@
 <!-- FORMULARIOS DE NOVOS PRODUTOS -->
-<div>
+<div *ngIf="productAction.event?.action === addProductAction">
   <form [formGroup]="addProductForm" (ngSubmit)="handleSubmitAddProduct()">
     <div class="card flex flex-column md:flex-column gap-3">
       <!--Nome do produto-->
@@ -11,7 +11,7 @@
       <!--Preço do produto-->
       <input pInputText placeholder="Preço" formControlName="price" />
       <!--Descriçao do produto-->
-      <input pInputText placeholder="Preço" formControlName="description" />
+      <input pInputText placeholder="Descriçao" formControlName="description" />
       <!--Quantidade do produto-->
       <input pInputText type="number" placeholder="Quantidade" formControlName="amount">
 
@@ -25,4 +25,25 @@
     </div>
 
   </form>
+</div>
+
+<!-- FORMULARIOS DE EDIÇAO DE  PRODUTOS -->
+<div *ngIf="productAction.event?.action === editProductAction">
+  <form [formGroup]="editProductForm" (ngSubmit)="handleSubmitEditProduct()">
+      <div class="card flex flex-column md:flex-column gap-3">
+        <input pInputText placeholder="Nome" formControlName="name">
+        <input pInputText  type="number" placeholder="Preço" formControlName="price">
+        <input pInputText placeholder="Descrição" formControlName="description">
+        <input pInputText type="number" placeholder="Quantidade" formControlName="amount">
+
+        <div class="flex flex-row justify-content-center align-content-center align-items-center">
+          <p-button
+          [disabled]="!editProductForm.valid"
+          type="submit"
+          label="Editar"
+          ></p-button>
+        </div>
+      </div>
+  </form>
+
 </div>
