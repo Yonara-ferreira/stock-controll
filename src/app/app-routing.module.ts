@@ -30,6 +30,14 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuardsService], // apenas usuario logados podem entrar nessa rota.
   },
+  {
+    path: 'categories',
+    loadChildren: () =>
+      import('./modules/categories/categories.module').then(
+        (m) => m.CategoriesModule
+      ),
+    canActivate: [AuthGuardsService], // apenas usuario logados podem entrar nessa rota.
+  },
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
